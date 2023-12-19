@@ -3,9 +3,11 @@ package tls_client
 import (
 	"crypto/x509"
 	"fmt"
-	"github.com/bogdanfinn/tls-client/profiles"
 	"net"
 	"time"
+
+	"github.com/bogdanfinn/tls-client/profiles"
+	"golang.org/x/net/proxy"
 
 	http "github.com/bogdanfinn/fhttp"
 )
@@ -53,6 +55,7 @@ type httpClientConfig struct {
 	// Establish a connection to origin server via ipv4 only
 	disableIPV6 bool
 	dialer      net.Dialer
+	ctxDialer   proxy.ContextDialer
 }
 
 // WithProxyUrl configures a HTTP client to use the specified proxy URL.
@@ -106,6 +109,13 @@ func WithTimeoutMilliseconds(timeout int) HttpClientOption {
 func WithDialer(dialer net.Dialer) HttpClientOption {
 	return func(config *httpClientConfig) {
 		config.dialer = dialer
+	}
+}
+
+// WithContextDialer configures an HTTP client to use the specified dialer. This allows the use of a custom DNS resolver
+func WithContextDialer(dialer proxy.ContextDialer) HttpClientOption {
+	return func(config *httpClientConfig) {
+		config.ctxDialer = dialer
 	}
 }
 
