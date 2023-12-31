@@ -204,6 +204,7 @@ func (rt *roundTripper) dialTLS(ctx context.Context, network, addr string) (net.
 				t1.MaxResponseHeaderBytes = rt.transportOptions.MaxResponseHeaderBytes
 				t1.WriteBufferSize = rt.transportOptions.WriteBufferSize
 				t1.ReadBufferSize = rt.transportOptions.ReadBufferSize
+				t1.ResponseHeaderTimeout = rt.transportOptions.ResponseHeaderTimeout
 				t1.IdleConnTimeout = idleConnectionTimeout
 			}
 		}
@@ -286,6 +287,7 @@ func (rt *roundTripper) buildHttp1Transport() *http.Transport {
 		t.MaxIdleConnsPerHost = rt.transportOptions.MaxIdleConnsPerHost
 		t.MaxConnsPerHost = rt.transportOptions.MaxConnsPerHost
 		t.MaxResponseHeaderBytes = rt.transportOptions.MaxResponseHeaderBytes
+		t.ResponseHeaderTimeout = rt.transportOptions.ResponseHeaderTimeout
 		t.WriteBufferSize = rt.transportOptions.WriteBufferSize
 		t.ReadBufferSize = rt.transportOptions.ReadBufferSize
 	}
